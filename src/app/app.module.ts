@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {environment} from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+
 
 @NgModule({
   declarations: [
@@ -13,8 +14,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
   ],
   imports: [
     BrowserModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig, 'fcc-book-trading'),
-    AngularFireDatabaseModule
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
