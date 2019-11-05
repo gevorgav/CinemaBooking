@@ -5,12 +5,16 @@ import { AppComponent } from './app.component';
 import {environment} from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
+import { NavigationComponent } from './navigation/navigation.component';
+import { BookingPageComponent } from './booking-page/booking-page.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavigationComponent,
+    BookingPageComponent
   ],
   imports: [
     BrowserModule,
