@@ -7,6 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { NavigationComponent } from './navigation/navigation.component';
 import { BookingPageComponent } from './booking-page/booking-page.component';
+import {DataService} from './shared/data.service';
 
 
 
@@ -21,7 +22,9 @@ import { BookingPageComponent } from './booking-page/booking-page.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule
   ],
-  providers: [],
+  providers: [
+    DataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
