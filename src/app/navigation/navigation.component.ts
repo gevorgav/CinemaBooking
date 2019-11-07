@@ -1,11 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DataService} from '../shared/service/data.service';
-import {Observable, of} from 'rxjs';
-import {CinemaModel} from '../shared/model/cinema.model';
-import {HallModel} from '../shared/model/hall.model';
+import {Observable} from 'rxjs';
 import {NavigationModel} from '../shared/model/navigation.model';
-import {Navigator} from '../shared/model/navigator.interface';
-import {flatMap, map, switchMap} from 'rxjs/operators';
+import {NavigationService} from '../shared/service/navigation.service';
 
 @Component({
   selector: 'app-navigation',
@@ -13,32 +9,36 @@ import {flatMap, map, switchMap} from 'rxjs/operators';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-  public navigation: NavigationModel;
-  public cinemas: Observable<CinemaModel[]>;
-  public halls: Observable<HallModel[]>;
-  
-  constructor(private dataService: DataService) {
+  public navigation: Observable<NavigationModel[]>;
+
+  constructor(private navigationService: NavigationService) {
   }
-  
+
   ngOnInit() {
     this.initCinemas();
   }
-  
-  public getHalls(cinemaId: string, navigationModel: Observable<NavigationModel[]>) {
-    navigationModel = (this.getNavigationModel(this.dataService.getHallsByCinemaId(cinemaId)));
-  }
-  
+
   private initCinemas() {
-    this.navigation = new NavigationModel(null, this.getNavigationModel(this.dataService.getCinemas()));
+    this.navigation = this.navigationService.getNavigationForCinema();
   }
-  
-  private getNavigationModel(items: Observable<Navigator[]>): Observable<NavigationModel[]> {
-    return items.pipe(flatMap(items1 => {
-      let navigations = [];
-      items1.forEach(value => {
-        navigations.push(new NavigationModel((value as Navigator), of([])));
-      });
-      return navigations;
-    }));
+
+  getCinemaChildrenNavigation(cinemaNavigationModel: NavigationModel) {
+    if (cinemaNavigationModel.children) {
+      cinemaNavigationModel.children = null;
+    } else {
+      cinemaNavigationModel.children = this.navigationService.getNavigationForHall(cinemaNavigationModel.item.id);
+    }
+  }
+
+  getHallChildrenNavigation(hallNavigationModel: NavigationModel, cinemaId: string) {
+    if (hallNavigationModel.children) {
+      hallNavigationModel.children = null;
+    } else {
+      hallNavigationModel.children = this.navigationService.getNavigationForMovie(cinemaId, hallNavigationModel.item.id);
+    }
+  }
+
+  navigate(cinemaId: string, hallId: string, movieId: string) {
+    this.navigationService.navigate.next({cinemaId, hallId, movieId});
   }
 }

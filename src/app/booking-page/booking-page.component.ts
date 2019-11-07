@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NavigationService} from '../shared/service/navigation.service';
+import {NavigationFields} from '../shared/model/navigator.interface';
 
 @Component({
   selector: 'app-booking-page',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookingPageComponent implements OnInit {
 
-  constructor() { }
+  public navigationFields: NavigationFields;
+
+  constructor(private navigationService: NavigationService) {
+  }
 
   ngOnInit() {
+    this.navigationService.navigate.subscribe(res => {
+      this.navigationFields = res;
+    });
   }
 
 }

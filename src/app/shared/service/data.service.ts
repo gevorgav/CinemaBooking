@@ -11,6 +11,7 @@ import {HallModel} from '../model/hall.model';
 import {MovieModel} from '../model/movie.model';
 import {AvailableSessionsModel} from '../model/available-sessions.model';
 import {from} from 'rxjs/internal/observable/from';
+import {NavigationModel} from '../model/navigation.model';
 
 @Injectable()
 export class DataService {

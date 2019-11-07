@@ -4,11 +4,16 @@
 
 <div>
   <ul>
-    <li *ngFor="let cinema of navigation.children | async">
-      <span (click)="getHalls(cinema.item.id, cinema.children)">{{cinema.item.name}}</span>
-      <ul *ngIf="(cinema.children | async)?.length > 0">
-        <li *ngFor="let hall of cinema.children | async">
-          {{hall.item.name}}
+    <li *ngFor="let cinemaNavigation of navigation | async">
+      <span (click)="getCinemaChildrenNavigation(cinemaNavigation)">{{cinemaNavigation.item.name}}</span>
+      <ul *ngIf="(cinemaNavigation.children | async)?.length > 0">
+        <li *ngFor="let hallNavigation of cinemaNavigation.children | async">
+          <span (click)="getHallChildrenNavigation(hallNavigation, cinemaNavigation.item.id)">{{hallNavigation.item.name}}</span>
+          <ul *ngIf="(hallNavigation.children | async)?.length > 0">
+            <li *ngFor="let movieNavigation of hallNavigation.children | async">
+              <span (click)="navigate(cinemaNavigation.item.id, hallNavigation.item.id, movieNavigation.item.id)">{{movieNavigation.item.name}}</span>
+            </li>
+          </ul>
         </li>
       </ul>
     </li>
