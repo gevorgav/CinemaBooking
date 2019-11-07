@@ -3,13 +3,13 @@
  */
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {CinemaModel} from './model/cinema.model';
+import {CinemaModel} from '../model/cinema.model';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
-import {ConverterUtil} from './converter.util';
-import {HallModel} from './model/hall.model';
-import {MovieModel} from './model/movie.model';
-import {AvailableSessionsModel} from './model/available-sessions.model';
+import {ConverterUtil} from '../converter.util';
+import {HallModel} from '../model/hall.model';
+import {MovieModel} from '../model/movie.model';
+import {AvailableSessionsModel} from '../model/available-sessions.model';
 import {from} from 'rxjs/internal/observable/from';
 
 @Injectable()

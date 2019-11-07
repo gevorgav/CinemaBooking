@@ -1,3 +1,16 @@
 <p>
   navigation works!
 </p>
+
+<div>
+  <ul>
+    <li *ngFor="let cinema of navigation.children | async">
+      <span (click)="getHalls(cinema.item.id, cinema.children)">{{cinema.item.name}}</span>
+      <ul *ngIf="(cinema.children | async)?.length > 0">
+        <li *ngFor="let hall of cinema.children | async">
+          {{hall.item.name}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

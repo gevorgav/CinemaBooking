@@ -7,7 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { NavigationComponent } from './navigation/navigation.component';
 import { BookingPageComponent } from './booking-page/booking-page.component';
-import {DataService} from './shared/data.service';
+import {DataService} from './shared/service/data.service';
 
 
 

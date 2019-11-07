@@ -1,4 +1,6 @@
-export class HallModel {
+import {Navigator} from './navigator.interface';
+
+export class HallModel implements Navigator {
   private _id: string;
   private _name: string;
   private _seatsCount: number;

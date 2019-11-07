@@ -1,4 +1,5 @@
-export class MovieModel {
+import {Navigator} from './navigator.interface';
+export class MovieModel implements Navigator {
   private _id: string;
   private _name: string;
 
