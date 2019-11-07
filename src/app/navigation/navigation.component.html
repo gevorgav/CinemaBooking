@@ -1,21 +1,35 @@
-<p>
-  navigation works!
+<p class="lead">
+  Upcoming Movies
 </p>
 
-<div>
-  <ul>
-    <li *ngFor="let cinemaNavigation of navigation | async">
-      <span (click)="getCinemaChildrenNavigation(cinemaNavigation)">{{cinemaNavigation.item.name}}</span>
-      <ul *ngIf="(cinemaNavigation.children | async)?.length > 0">
-        <li *ngFor="let hallNavigation of cinemaNavigation.children | async">
-          <span (click)="getHallChildrenNavigation(hallNavigation, cinemaNavigation.item.id)">{{hallNavigation.item.name}}</span>
-          <ul *ngIf="(hallNavigation.children | async)?.length > 0">
-            <li *ngFor="let movieNavigation of hallNavigation.children | async">
-              <span (click)="navigate(cinemaNavigation.item.id, hallNavigation.item.id, movieNavigation.item.id)">{{movieNavigation.item.name}}</span>
+<ul class="nav flex-column flex-nowrap">
+    <li class="nav-item" *ngFor="let cinemaNavigation of navigation | async">
+      <a class="nav-link collapsed" (click)="getCinemaChildrenNavigation(cinemaNavigation)"
+         [href]="'#'+cinemaNavigation.item.id" data-toggle="collapse" data-target="{{'#'+cinemaNavigation.item.id}}">
+        {{cinemaNavigation.item.name}}
+      </a>
+      <div  id="{{cinemaNavigation.item.id}}" aria-expanded="false">
+          <ul class="flex-column pl-2 nav">
+            <li class="nav-item" *ngFor="let hallNavigation of cinemaNavigation?.children | async">
+              <a class="nav-link collapsed py-1" href="{{'#'+hallNavigation.item.id}}" data-toggle="collapse"
+                 data-target="{{'#'+hallNavigation.item.id}}"
+                 (click)="getHallChildrenNavigation(hallNavigation, cinemaNavigation.item.id)">{{hallNavigation.item.name}}</a>
+                <div id="{{hallNavigation.item.id}}" aria-expanded="false">
+                  <ul class="flex-column nav pl-4">
+                    <li class="nav-item" *ngFor="let movieNavigation of hallNavigation?.children | async">
+                      <a class="nav-link p-1" href="#"
+                         (click)="navigate(cinemaNavigation.item.id, hallNavigation.item.id, movieNavigation.item.id)">
+                         {{movieNavigation.item.name}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
             </li>
           </ul>
-        </li>
-      </ul>
+      </div>
     </li>
-  </ul>
-</div>
+</ul>
+
+
+
+

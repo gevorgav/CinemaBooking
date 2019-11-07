@@ -1,5 +1,12 @@
-<p>
-  booking-page works!
-</p>
+<h2 class="lead">
+  QUICK BOOK
+</h2>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Home</li>
+    <li class="breadcrumb-item">Library</li>
+    <li class="breadcrumb-item active" aria-current="page">Data</li>
+  </ol>
+</nav>
 <h1 *ngIf="navigationFields">{{navigationFields.cinemaId + ' ' + navigationFields.hallId + ' ' + navigationFields.movieId}}</h1>
 
