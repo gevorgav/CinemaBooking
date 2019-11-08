@@ -9,7 +9,7 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {BookingPageComponent} from './booking-page/booking-page.component';
 import {DataService} from './shared/service/data.service';
 import {NavigationService} from './shared/service/navigation.service';
-
+import {NgbActiveModal, NgbModal, NgbModalConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,12 +19,16 @@ import {NavigationService} from './shared/service/navigation.service';
   ],
   imports: [
     BrowserModule,
+    NgbModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
   ],
   providers: [
     DataService,
-    NavigationService
+    NavigationService,
+    NgbModalConfig,
+    NgbModal,
+    NgbActiveModal
   ],
   bootstrap: [AppComponent]
 })

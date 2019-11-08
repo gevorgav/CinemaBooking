@@ -38,7 +38,7 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  navigate(cinemaId: string, hallId: string, movieId: string) {
-    this.navigationService.navigate.next({cinemaId, hallId, movieId});
+  navigate(cinema: any, hall: any, movie: any) {
+    this.navigationService.navigate.next({cinema, hall, movie});
   }
 }

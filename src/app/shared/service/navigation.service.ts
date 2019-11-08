@@ -23,7 +23,7 @@ export class NavigationService {
       map((results: CinemaModel[]) => {
         const navigation: NavigationModel[] = [];
         results.forEach(value => {
-          navigation.push(new NavigationModel(value, null));
+          navigation.push(new NavigationModel(value, this.getNavigationForHall(value.id)));
         });
         return navigation;
       })
@@ -40,7 +40,7 @@ export class NavigationService {
       map((results: HallModel[]) => {
         const navigation: NavigationModel[] = [];
         results.forEach(value => {
-          navigation.push(new NavigationModel(value, null));
+          navigation.push(new NavigationModel(value, this.getNavigationForMovie(cinemaId, value.id)));
         });
         return navigation;
       })

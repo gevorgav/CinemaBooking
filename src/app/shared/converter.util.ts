@@ -16,6 +16,7 @@ export class ConverterUtil {
   public static SEATS_COUNT = 'seatsCount';
   public static ID = 'id';
   public static SEATS = 'seats';
+  public static DATE = 'date';
 
   public static firebaseCinemaToCinemaModel(data: any): CinemaModel {
     return new CinemaModel(data.id, data.data()[ConverterUtil.NAME]);
@@ -33,10 +34,19 @@ export class ConverterUtil {
       new Map(Object.entries(data.data()[ConverterUtil.SEATS])),
       data.data()[ConverterUtil.HALL][ConverterUtil.ID],
       data.data()[ConverterUtil.MOVIE][ConverterUtil.ID],
-      data.data()[ConverterUtil.CINEMA][ConverterUtil.ID]);
+      data.data()[ConverterUtil.CINEMA][ConverterUtil.ID],
+      data.data()[ConverterUtil.DATE]);
   }
 
   public static firebaseMovieToMovieModel(data: any): MovieModel {
     return new MovieModel(data.id, data.data()[ConverterUtil.NAME]);
+  }
+
+  public static mapToObject(map: Map<string, boolean>) {
+    const obj = {};
+    for (const prop of map) {
+      obj[prop[0]] = prop[1];
+    }
+    return obj;
   }
 }

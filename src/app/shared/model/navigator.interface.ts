@@ -4,7 +4,7 @@ export interface Navigator {
 }
 
 export interface NavigationFields {
-  cinemaId: string;
-  hallId: string;
-  movieId: string;
+  cinema: any;
+  hall: any;
+  movie: any;
 }

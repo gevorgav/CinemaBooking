@@ -1,12 +1,54 @@
-<h2 class="lead">
-  QUICK BOOK
-</h2>
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">Home</li>
-    <li class="breadcrumb-item">Library</li>
-    <li class="breadcrumb-item active" aria-current="page">Data</li>
-  </ol>
-</nav>
-<h1 *ngIf="navigationFields">{{navigationFields.cinemaId + ' ' + navigationFields.hallId + ' ' + navigationFields.movieId}}</h1>
+<ngb-alert *ngIf="saveMessage" [type]="saveSuccess? 'success': 'danger'" (close)="saveMessage = null">{{ saveMessage }}</ngb-alert>
+
+<div class="container" *ngIf="navigationFields">
+  <h2 class="lead">
+    QUICK BOOK
+  </h2>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">{{navigationFields.cinema.name}}</li>
+      <li class="breadcrumb-item">{{navigationFields.hall.name}}</li>
+      <li class="breadcrumb-item active" aria-current="page">{{navigationFields.movie.name}}</li>
+    </ol>
+  </nav>
+
+  <div class="list-group list-group-horizontal mb-5 mt-5">
+    <button type="button" class="list-group-item list-group-item-action " [ngClass]="i == activate?'active':''"
+            *ngFor="let availableSession of availableSessions | async let i = index"
+            (click)="selectSession(i, availableSession)">
+      {{availableSession.startDateMilliseconds | date: 'HH:mm, d MMMM, y'}}
+      <p>{{getAvailableSeats(availableSession) + ' '}} available seats</p>
+    </button>
+  </div>
+
+  <table class="table table-bordered" *ngIf="selectedSession">
+    <tbody>
+    <tr *ngFor="let tr of trCount let trIndex = index">
+      <ng-container *ngIf="trCount.length-1 !== trIndex || lastTdCount.length === 0">
+        <td *ngFor="let td of tdCount let tdIndex = index" (click)="showModal(trIndex, tdIndex)"
+            [style.background-color]="getStatus(trIndex, tdIndex)?'RED':'GREEN'">{{getStatus(trIndex, tdIndex) ? 'Booked' : 'Book'}}</td>
+      </ng-container>
+      <ng-container *ngIf="trCount.length-1 === trIndex">
+        <td *ngFor="let td of lastTdCount let tdIndex = index" (click)="showModal(trIndex, tdIndex)"
+            [style.background-color]="getStatus(trIndex, tdIndex)?'RED':'GREEN'">{{getStatus(trIndex, tdIndex) ? 'Booked' : 'Book'}}</td>
+      </ng-container>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+<ng-template #modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{statusChangeMessage}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click'); bookingSeat()">Confirm</button>
+  </div>
+</ng-template>
 

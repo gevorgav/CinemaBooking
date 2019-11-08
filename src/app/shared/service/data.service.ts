@@ -12,6 +12,7 @@ import {MovieModel} from '../model/movie.model';
 import {AvailableSessionsModel} from '../model/available-sessions.model';
 import {from} from 'rxjs/internal/observable/from';
 import {NavigationModel} from '../model/navigation.model';
+import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class DataService {
@@ -82,6 +83,16 @@ export class DataService {
         return sessionList;
       });
     return from(sessions);
+  }
+
+  public saveSeats(availableSession: AvailableSessionsModel): Observable<boolean> {
+    const now = Date.now();
+    const document = {
+      seats: ConverterUtil.mapToObject(availableSession.seats),
+      modified: now
+    };
+    return from(this.db.collection(ConverterUtil.AVAILABLE_SESSIONS).doc(availableSession.id).update(document)
+      .then(res => true).catch(err => false));
   }
 
   private getMoviesFromAvailableSessions(cinemaId: string, hallId: string): Promise<any[]> {

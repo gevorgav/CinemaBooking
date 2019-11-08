@@ -4,13 +4,15 @@ export class AvailableSessionsModel {
   private _hall: string;
   private _movie: string;
   private _cinema: string;
+  private _startDateMilliseconds: number;
 
-  constructor(id: string, seats: Map<string, boolean>, hall: string, movie: string, cinema: string) {
+  constructor(id: string, seats: Map<string, boolean>, hall: string, movie: string, cinema: string, startDate: number) {
     this._id = id;
     this._seats = seats;
     this._hall = hall;
     this._movie = movie;
     this._cinema = cinema;
+    this._startDateMilliseconds = startDate;
   }
 
   get id(): string {
@@ -51,5 +53,13 @@ export class AvailableSessionsModel {
 
   set cinema(value: string) {
     this._cinema = value;
+  }
+
+  get startDateMilliseconds(): number {
+    return this._startDateMilliseconds;
+  }
+
+  set startDateMilliseconds(value: number) {
+    this._startDateMilliseconds = value;
   }
 }

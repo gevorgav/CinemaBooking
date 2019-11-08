@@ -18,7 +18,7 @@
                   <ul class="flex-column nav pl-4">
                     <li class="nav-item" *ngFor="let movieNavigation of hallNavigation?.children | async">
                       <a class="nav-link p-1" href="#"
-                         (click)="navigate(cinemaNavigation.item.id, hallNavigation.item.id, movieNavigation.item.id)">
+                         (click)="navigate(cinemaNavigation.item, hallNavigation.item, movieNavigation.item)">
                          {{movieNavigation.item.name}}
                       </a>
                     </li>
