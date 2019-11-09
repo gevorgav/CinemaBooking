@@ -15,6 +15,9 @@ import {NavigationModel} from '../model/navigation.model';
 import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
+/**
+ * DataService provides for handling data from Firebase.
+ */
 export class DataService {
   constructor(private db: AngularFirestore) {
   }

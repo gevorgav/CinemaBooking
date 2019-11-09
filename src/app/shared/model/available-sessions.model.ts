@@ -1,3 +1,6 @@
+/**
+ * Its main entity for data entry.
+ */
 export class AvailableSessionsModel {
   private _id: string;
   private _seats: Map<string, boolean>;

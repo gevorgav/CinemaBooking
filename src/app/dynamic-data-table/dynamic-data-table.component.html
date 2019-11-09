@@ -1,0 +1,14 @@
+<table class="table table-bordered" >
+  <tbody>
+  <tr *ngFor="let tr of tableConfig.trCount let trIndex = index">
+    <ng-container *ngIf="tableConfig.trCount.length-1 !== trIndex || tableConfig.lastTdCount.length === 0">
+      <td *ngFor="let td of tableConfig.tdLength let tdIndex = index" (click)="onClickCell(trIndex, tdIndex)"
+          [style.background-color]="getStatus(trIndex, tdIndex)?'RED':'GREEN'">{{getStatus(trIndex, tdIndex) ? 'Booked' : 'Book'}}</td>
+    </ng-container>
+    <ng-container *ngIf="tableConfig.trCount.length-1 === trIndex">
+      <td *ngFor="let td of tableConfig.lastTdCount let tdIndex = index" (click)="onClickCell(trIndex, tdIndex)"
+          [style.background-color]="getStatus(trIndex, tdIndex)?'RED':'GREEN'">{{getStatus(trIndex, tdIndex) ? 'Booked' : 'Book'}}</td>
+    </ng-container>
+  </tr>
+  </tbody>
+</table>

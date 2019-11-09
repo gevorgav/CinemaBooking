@@ -12,13 +12,23 @@ import {MovieModel} from '../model/movie.model';
 import {Subject} from 'rxjs/internal/Subject';
 import {NavigationFields} from '../model/navigator.interface';
 
+
 @Injectable()
+/**
+ * NavigationService build navigation tree and do navigation.
+ * If you have big data you can change the logic to lazy load.
+ */
 export class NavigationService {
   private _navigate = new Subject<NavigationFields>();
 
   constructor(private dataService: DataService) {
   }
-  public getNavigationForCinema(): Observable<NavigationModel[]> {
+
+  get navigate(): Subject<NavigationFields> {
+    return this._navigate;
+  }
+
+  public buildNavigation(): Observable<NavigationModel[]> {
     return this.dataService.getCinemas().pipe(
       map((results: CinemaModel[]) => {
         const navigation: NavigationModel[] = [];
@@ -28,11 +38,6 @@ export class NavigationService {
         return navigation;
       })
     );
-  }
-
-
-  get navigate(): Subject<NavigationFields> {
-    return this._navigate;
   }
 
   public getNavigationForHall(cinemaId: string): Observable<NavigationModel[]> {

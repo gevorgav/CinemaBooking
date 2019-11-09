@@ -2,7 +2,7 @@
 
 <div class="container" *ngIf="navigationFields">
   <h2 class="lead">
-    QUICK BOOK
+    {{title}}
   </h2>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -12,29 +12,24 @@
     </ol>
   </nav>
 
+  <h2 class="lead">
+    Choose session
+  </h2>
   <div class="list-group list-group-horizontal mb-5 mt-5">
     <button type="button" class="list-group-item list-group-item-action " [ngClass]="i == activate?'active':''"
             *ngFor="let availableSession of availableSessions | async let i = index"
             (click)="selectSession(i, availableSession)">
       {{availableSession.startDateMilliseconds | date: 'HH:mm, d MMMM, y'}}
-      <p>{{getAvailableSeats(availableSession) + ' '}} available seats</p>
+      <p id="seatsId">{{getAvailableSeats(availableSession) + ' '}} available seats</p>
     </button>
   </div>
 
-  <table class="table table-bordered" *ngIf="selectedSession">
-    <tbody>
-    <tr *ngFor="let tr of trCount let trIndex = index">
-      <ng-container *ngIf="trCount.length-1 !== trIndex || lastTdCount.length === 0">
-        <td *ngFor="let td of tdCount let tdIndex = index" (click)="showModal(trIndex, tdIndex)"
-            [style.background-color]="getStatus(trIndex, tdIndex)?'RED':'GREEN'">{{getStatus(trIndex, tdIndex) ? 'Booked' : 'Book'}}</td>
-      </ng-container>
-      <ng-container *ngIf="trCount.length-1 === trIndex">
-        <td *ngFor="let td of lastTdCount let tdIndex = index" (click)="showModal(trIndex, tdIndex)"
-            [style.background-color]="getStatus(trIndex, tdIndex)?'RED':'GREEN'">{{getStatus(trIndex, tdIndex) ? 'Booked' : 'Book'}}</td>
-      </ng-container>
-    </tr>
-    </tbody>
-  </table>
+  <app-dynamic-data-table
+    *ngIf="selectedSession"
+    [selectedSession]="selectedSession"
+    [tableConfig]="tableConfig"
+    (cellClick)="showModal($event)">
+  </app-dynamic-data-table>
 
 </div>
 <ng-template #modal let-c="close" let-d="dismiss">

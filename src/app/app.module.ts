@@ -10,12 +10,14 @@ import {BookingPageComponent} from './booking-page/booking-page.component';
 import {DataService} from './shared/service/data.service';
 import {NavigationService} from './shared/service/navigation.service';
 import {NgbActiveModal, NgbModal, NgbModalConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { DynamicDataTableComponent } from './dynamic-data-table/dynamic-data-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    BookingPageComponent
+    BookingPageComponent,
+    DynamicDataTableComponent
   ],
   imports: [
     BrowserModule,

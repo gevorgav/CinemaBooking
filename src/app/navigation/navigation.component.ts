@@ -19,23 +19,11 @@ export class NavigationComponent implements OnInit {
   }
 
   private initCinemas() {
-    this.navigation = this.navigationService.getNavigationForCinema();
+    this.navigation = this.navigationService.buildNavigation();
   }
 
-  getCinemaChildrenNavigation(cinemaNavigationModel: NavigationModel) {
-    if (cinemaNavigationModel.children) {
-      cinemaNavigationModel.children = null;
-    } else {
-      cinemaNavigationModel.children = this.navigationService.getNavigationForHall(cinemaNavigationModel.item.id);
-    }
-  }
-
-  getHallChildrenNavigation(hallNavigationModel: NavigationModel, cinemaId: string) {
-    if (hallNavigationModel.children) {
-      hallNavigationModel.children = null;
-    } else {
-      hallNavigationModel.children = this.navigationService.getNavigationForMovie(cinemaId, hallNavigationModel.item.id);
-    }
+  changeCollapseValue(navigationModel: NavigationModel) {
+    navigationModel.collapsed = !navigationModel.collapsed;
   }
 
   navigate(cinema: any, hall: any, movie: any) {

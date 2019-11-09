@@ -5,6 +5,7 @@ import {NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {DataService} from '../shared/service/data.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {AvailableSessionsModel} from '../shared/model/available-sessions.model';
+import {TableConfig} from '../shared/model/table-config.interface';
 
 @Component({
   selector: 'app-booking-page',
@@ -12,18 +13,28 @@ import {AvailableSessionsModel} from '../shared/model/available-sessions.model';
   styleUrls: ['./booking-page.component.css']
 })
 export class BookingPageComponent implements OnInit {
+  public title = 'QUICK BOOK';
 
+  /**
+   * navigationFields its get when you navigate
+   */
   public navigationFields: NavigationFields;
   public availableSessions: Observable<AvailableSessionsModel[]>;
   public activate;
   public seatsCount: number;
   public selectedSession: AvailableSessionsModel;
-  public trCount = [];
+
+  /**
+   * tdLength is column length in dataTable
+   */
   public tdLength = 8;
-  public tdCount = new Array(this.tdLength);
-  public lastTdCount = [];
+  /**
+   * Its configuration object for dataTable
+   */
+  public tableConfig: TableConfig;
+
   public statusChangeMessage = ' ';
-  public selectedLocation: { tr: number, td: number };
+  public selectedKey: number;
   public saveSuccess: boolean;
   public saveMessage: string;
 
@@ -42,8 +53,11 @@ export class BookingPageComponent implements OnInit {
       .subscribe(res => {
           this.navigationFields = res;
           this.seatsCount = this.navigationFields.hall.seatsCount;
-          this.trCount = new Array(Math.ceil(this.seatsCount / 8));
-          this.lastTdCount = new Array(this.seatsCount % 8);
+          this.tableConfig = {
+            trCount: new Array(Math.ceil(this.seatsCount / 8)),
+            tdLength: new Array(this.tdLength),
+            lastTdCount: new Array(this.seatsCount % 8)
+          };
           this.initAvailableSessions();
         }
       );
@@ -54,10 +68,10 @@ export class BookingPageComponent implements OnInit {
       this.navigationFields.hall.id, this.navigationFields.movie.id);
   }
 
-  showModal(tr: any, td: any) {
-    const status = this.getStatus(tr, td);
-    this.selectedLocation = {tr, td};
-    this.statusChangeMessage = status ? 'Cancel your booking' : 'Booking';
+
+  showModal(key: number) {
+    this.selectedKey = key;
+    this.statusChangeMessage = !!this.selectedSession.seats.get(key + '') ? 'Cancel your booking' : 'Booking';
     this.modalService.open(this.modal);
   }
 
@@ -66,27 +80,20 @@ export class BookingPageComponent implements OnInit {
     this.selectedSession = availableSession;
   }
 
-  getStatus(tr: number, td: number): boolean {
-    const key = this.getKey(tr, td);
-    return !!this.selectedSession.seats.get(key + '');
-  }
-
-  getKey(tr: number, td: number) {
-    return tr * this.tdLength + td + 1;
-  }
-
+  /**
+   * Booking logic
+   */
   bookingSeat() {
     const timeNow = new Date();
     if (timeNow.getTime() - this.selectedSession.startDateMilliseconds > 300000) {
       this.saveSuccess = false;
       this.saveMessage = 'You can\'t book a seat after less than 5 minutes left before the session.';
     } else {
-      const status = this.getStatus(this.selectedLocation.tr, this.selectedLocation.td);
-      const selectedKey = this.getKey(this.selectedLocation.tr, this.selectedLocation.td);
+      const status = this.selectedSession.seats.get(this.selectedKey + '');
       if (!status) {
-        this.selectedSession.seats.set(selectedKey + '', !status);
+        this.selectedSession.seats.set(this.selectedKey + '', !status);
       } else {
-        this.selectedSession.seats.delete(selectedKey + '');
+        this.selectedSession.seats.delete(this.selectedKey + '');
       }
       this.saveBookedSeat(this.selectedSession);
     }
@@ -96,6 +103,10 @@ export class BookingPageComponent implements OnInit {
     return this.seatsCount - availableSession.seats.size;
   }
 
+  /**
+   * Data to save
+   * @param availableSession
+   */
   private saveBookedSeat(availableSession: AvailableSessionsModel) {
     this.dataService.saveSeats(availableSession).subscribe(res => {
       if (res) {
