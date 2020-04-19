@@ -20,7 +20,7 @@ import { DynamicDataTableComponent } from './dynamic-data-table/dynamic-data-tab
     DynamicDataTableComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     NgbModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
