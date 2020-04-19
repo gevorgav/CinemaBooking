@@ -103,9 +103,16 @@ export class BookingPageComponent implements OnInit {
     return this.seatsCount - availableSession.seats.size;
   }
 
+  foo(a: any, b: any, c: any){
+    if (a>b){
+      return c;
+    } else {
+      return b-a;
+    }
+  }
+
   /**
    * Data to save
-   * @param availableSession
    */
   private saveBookedSeat(availableSession: AvailableSessionsModel) {
     this.dataService.saveSeats(availableSession).subscribe(res => {

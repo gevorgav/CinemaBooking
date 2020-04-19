@@ -11,8 +11,6 @@ import {HallModel} from '../model/hall.model';
 import {MovieModel} from '../model/movie.model';
 import {AvailableSessionsModel} from '../model/available-sessions.model';
 import {from} from 'rxjs/internal/observable/from';
-import {NavigationModel} from '../model/navigation.model';
-import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
 /**
@@ -35,10 +33,6 @@ export class DataService {
       );
   }
 
-  public getHalls(): Observable<HallModel[]> {
-    return null;
-  }
-
   public getHallsByCinemaId(cinemaId: string): Observable<HallModel[]> {
     const hall = this.db.collection(ConverterUtil.HALL).get().toPromise()
       .then(res => {
@@ -52,10 +46,6 @@ export class DataService {
         return halls;
       });
     return from(hall);
-  }
-
-  public getMovies(): Observable<MovieModel[]> {
-    return null;
   }
 
   public getMoviesByCinemaHallIds(cinemaId: string, hallId: string): Observable<MovieModel[]> {
